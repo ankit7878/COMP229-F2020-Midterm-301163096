@@ -79,15 +79,7 @@ module.exports.processEditPage = (req, res, next) => {
 module.exports.processDeletePage = (req, res, next) => {
     let bookId = req.params.id;
     
-    Book.findOneAndDelete(bookId).select('-__v -_id')
-        .then(book => {
-            if(!book) {
-                // alert("Does Not exist a Book with id = "+ book.name);
-                res.redirect('/book-list');
-            }
-            // alert("Delete Successfully a Book with id = " + book.name);
-            res.redirect('/book-list');
-        }).catch(err => {
-            res.redirect('/book-list');
-        });
+    Book.findByIdAndRemove(bookId, (book)=> {
+        res.redirect('/book-list');
+    });
 }
